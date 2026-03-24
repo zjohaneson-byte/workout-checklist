@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Week Workout Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --push:    #C0392B; --push-bg:  #FDF0EE;
+    --pull:    #1F5C8B; --pull-bg:  #EEF4FB;
+    --legs:    #2E7D32; --legs-bg:  #EEF7EE;
+    --upper:   #6A0DAD; --upper-bg: #F5EEF8;
+    --cardio:  #B7770D; --cardio-bg:#FDF6E3;
+    --hiit:    #C0392B; --hiit-bg:  #FDF0EE;
+    --hip:     #6A0DAD; --hip-bg:   #F5EEF8;
+    --dark:    #0F172A;
+    --text:    #1E293B;
+    --muted:   #64748B;
+    --border:  #E2E8F0;
+    --light:   #F8FAFC;
+    --green:   #16A34A;
+    --green-bg:#DCFCE7;
+    --target:  #6A0DAD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--light);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--dark);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .topbar-left h1 { color: #fff; font-size: 18px; font-weight: 800; letter-spacing: -.02em; }
+  .topbar-left p  { color: #94A3B8; font-size: 12px; margin-top: 1px; }
+  .overall-progress { text-align: right; }
+  .overall-progress .pct { color: #fff; font-size: 22px; font-weight: 800; line-height: 1; }
+  .overall-progress .lbl { color: #64748B; font-size: 11px; }
+  .progress-bar-wrap { height: 4px; background: #1E293B; border-radius: 4px; margin-top: 6px; width: 160px; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #1F5C8B, #6A0DAD); border-radius: 4px; transition: width .4s ease; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: #1E293B;
+    padding: 8px 24px;
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: #94A3B8;
+  }
+  .stats-strip span b { color: #CBD5E1; }
+
+  /* ── NAV TABS ── */
+  .nav-wrap { background: #fff; border-bottom: 1px solid var(--border); padding: 0 20px; overflow-x: auto; }
+  .nav-tabs { display: flex; gap: 2px; min-width: max-content; }
+  .nav-tab {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: all .15s;
+    font-family: inherit;
+    white-space: nowrap;
+    position: relative;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-tab .badge {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    background: var(--accent);
+  }
+  .nav-tab.done-tab .badge { background: var(--green); }
+
+  /* ── MAIN CONTENT ── */
+  .content { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* ── WORKOUT PANEL ── */
+  .workout-panel { display: none; }
+  .workout-panel.active { display: block; }
+
+  /* ── WORKOUT HEADER ── */
+  .workout-header {
+    border-radius: 12px 12px 0 0;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wh-left h2 { color: #fff; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+  .wh-left p  { color: rgba(255,255,255,.7); font-size: 13px; margin-top: 3px; }
+  .wh-right { text-align: right; }
+  .wh-pct   { color: #fff; font-size: 28px; font-weight: 800; line-height: 1; }
+  .wh-sets  { color: rgba(255,255,255,.65); font-size: 12px; }
+
+  .workout-progress-bar { height: 5px; }
+  .workout-progress-bar .fill { height: 100%; transition: width .3s ease; }
+
+  /* ── WARMUP / COOLDOWN BLOCKS ── */
+  .protocol-block {
+    background: #fff;
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    margin-bottom: 2px;
+  }
+  .protocol-block h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 10px; }
+  .protocol-item { display: flex; align-items: flex-start; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .protocol-item:last-child { border-bottom: none; }
+  .proto-cb { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all .15s; background: #fff; }
+  .proto-cb.checked { background: var(--green); border-color: var(--green); }
+  .proto-cb.checked::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 700; }
+  .proto-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+
+  /* ── EXERCISE CARD ── */
+  .ex-card {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 18px;
+  }
+  .ex-card:last-child { border-bottom: none; border-radius: 0 0 12px 12px; }
+  .ex-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .ex-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .ex-target-badge {
+    background: #F0E6FA;
+    color: var(--target);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .ex-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .ex-progress { font-size: 12px; font-weight: 700; color: var(--muted); text-align: right; white-space: nowrap; }
+  .ex-progress.done { color: var(--green); }
+
+  /* ── SET ROWS ── */
+  .sets-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .set-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .set-cb {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .18s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .set-cb:hover { border-color: var(--accent); transform: scale(1.05); }
+  .set-cb.checked { background: var(--green); border-color: var(--green); box-shadow: 0 2px 8px rgba(22,163,74,.3); }
+  .set-cb.checked::after { content: '✓'; color: #fff; font-size: 14px; font-weight: 800; }
+  .set-label { font-size: 10px; color: #CBD5E1; font-weight: 600; font-family: 'DM Mono', monospace; }
+
+  /* ── WEIGHT INPUT ── */
+  .weight-input {
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text);
+    width: 52px;
+    text-align: center;
+    background: #FAFAFA;
+    margin-top: 2px;
+  }
+  .weight-input:focus { outline: none; border-color: var(--accent); background: #fff; }
+  .weight-input::placeholder { color: #CBD5E1; }
+
+  /* ── NOTES SECTION ── */
+  .notes-block {
+    background: #fff;
+    border-top: 2px solid var(--border);
+    padding: 14px 18px;
+    border-radius: 0 0 12px 12px;
+  }
+  .notes-block h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; }
+  .notes-row { display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .notes-field { display: flex; flex-direction: column; gap: 3px; }
+  .notes-field label { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .notes-field input, .notes-field textarea {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text);
+    background: #FAFAFA;
+  }
+  .notes-field input:focus, .notes-field textarea:focus { outline: none; border-color: var(--accent); background: #fff; }
+  .notes-field textarea { resize: vertical; min-height: 60px; }
+
+  /* ── RESET BUTTON ── */
+  .reset-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+    margin-top: 10px;
+  }
+  .reset-btn:hover { border-color: #C0392B; color: #C0392B; }
+
+  /* ── COMPLETE BANNER ── */
+  .complete-banner {
+    background: var(--green-bg);
+    border: 2px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .complete-banner.show { display: block; }
+  .complete-banner p { color: var(--green); font-weight: 700; font-size: 15px; }
+  .complete-banner span { font-size: 24px; }
+
+  /* ── PHASE BANNER ── */
+  .phase-banner {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .phase-banner b { color: var(--accent); }
+
+  /* ── LEGEND ── */
+  .legend {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .legend h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 8px; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #F1F5F9; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 16px; }
+    .content { padding: 16px 12px 60px; }
+    .workout-header { flex-direction: column; gap: 8px; }
+    .wh-right { text-align: left; }
+    .stats-strip { gap: 16px; flex-wrap: wrap; }
+  }
+
+  @media print {
+    .topbar, .nav-wrap, .stats-strip { position: static; }
+    .workout-panel { display: block !important; page-break-after: always; }
+    .set-cb, .proto-cb { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>12-Week Transformation Plan</h1>
+    <p>Workout Checklist &nbsp;·&nbsp; 44yo · 6'2" · 205 lbs starting weight</p>
+  </div>
+  <div class="overall-progress">
+    <div class="pct" id="overall-pct">0%</div>
+    <div class="lbl" id="overall-sets">0 / 0 sets</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="overall-bar" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <span><b>Start:</b> Mar 24, 2026</span>
+  <span><b>End:</b> Jun 16, 2026</span>
+  <span><b>Schedule:</b> 12:00 PM · 60 min</span>
+  <span><b>Goals:</b> Muscle · Fat Loss · Cholesterol · Hip & Chest Fat</span>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav-tabs" id="nav-tabs">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<div class="content" id="content">
+  <!-- injected by JS -->
+</div>
+
+<script>
+const WORKOUTS = [
+  {
+    id: 'push', label: 'PUSH DAY 💪', day: 'Monday', accent: '#C0392B', bg: '#FDF0EE',
+    tag: 'Chest · Shoulders · Triceps', duration: '55–65 min',
+    phase: 'Phase 1–3: Build pressing strength progressively',
+    exercises: [
+      { name: 'Barbell / Dumbbell Bench Press',  sets: 4, reps: '8–10',     rest: '90s' },
+      { name: 'Incline Dumbbell Press',           sets: 3, reps: '10–12',    rest: '75s' },
+      { name: 'Seated Dumbbell Shoulder Press',   sets: 3, reps: '10–12',    rest: '75s' },
+      { name: 'Cable Lateral Raises',             sets: 3, reps: '12–15',    rest: '60s' },
+      { name: 'Cable / Machine Chest Fly',        sets: 3, reps: '12–15',    rest: '60s' },
+      { name: 'Tricep Rope Pushdown',             sets: 3, reps: '12–15',    rest: '60s' },
+      { name: 'Overhead Tricep Extension',        sets: 2, reps: '12–15',    rest: '60s' },
+      { name: 'Low-to-High Cable Fly',            sets: 3, reps: '15–20',    rest: '45s', target: true },
+      { name: 'Decline Dumbbell Press',           sets: 3, reps: '10–12',    rest: '75s', target: true },
+      { name: 'Dumbbell Pullover',                sets: 3, reps: '12–15',    rest: '60s', target: true },
+      { name: 'Pec Deck / Machine Fly',           sets: 3, reps: '15–20',    rest: '45s', target: true },
+      { name: 'Incline Push-Up (finisher)',       sets: 2, reps: 'Max reps', rest: '45s', target: true },
+    ]
+  },
+  {
+    id: 'pull', label: 'PULL DAY 🔵', day: 'Wednesday', accent: '#1F5C8B', bg: '#EEF4FB',
+    tag: 'Back · Biceps · Rear Delts', duration: '55–65 min',
+    phase: 'Focus on lat engagement and row depth each week',
+    exercises: [
+      { name: 'Lat Pulldown / Assisted Pull-Up', sets: 4, reps: '8–10',   rest: '90s' },
+      { name: 'Seated Cable Row (Close Grip)',   sets: 4, reps: '10–12',  rest: '75s' },
+      { name: 'Single-Arm Dumbbell Row',         sets: 3, reps: '10–12 ea', rest: '60s' },
+      { name: 'Face Pulls (Cable)',               sets: 3, reps: '15–20',  rest: '60s' },
+      { name: 'Chest-Supported Rear Delt Fly',   sets: 3, reps: '12–15',  rest: '60s' },
+      { name: 'EZ-Bar / Dumbbell Curl',          sets: 3, reps: '10–12',  rest: '60s' },
+      { name: 'Hammer Curls',                    sets: 2, reps: '12–15',  rest: '60s' },
+    ]
+  },
+  {
+    id: 'legs', label: 'LEG DAY 🟢', day: 'Friday', accent: '#2E7D32', bg: '#EEF7EE',
+    tag: 'Quads · Hamstrings · Glutes · Calves', duration: '55–65 min',
+    phase: 'Largest muscle group — drives the most caloric burn & hormonal response',
+    exercises: [
+      { name: 'Barbell Back Squat / Goblet Squat', sets: 4, reps: '8–10',      rest: '120s' },
+      { name: 'Romanian Deadlift (RDL)',            sets: 4, reps: '10–12',     rest: '90s'  },
+      { name: 'Leg Press',                          sets: 3, reps: '12–15',     rest: '75s'  },
+      { name: 'Walking / Reverse Lunges',           sets: 3, reps: '10 ea leg', rest: '60s'  },
+      { name: 'Leg Curl (Seated or Lying)',          sets: 3, reps: '12–15',     rest: '60s'  },
+      { name: 'Leg Extension',                      sets: 2, reps: '15–20',     rest: '60s'  },
+      { name: 'Standing Calf Raise',                sets: 4, reps: '15–20',     rest: '45s'  },
+      { name: 'Oblique Woodchop (Cable/Band)',      sets: 3, reps: '15 ea side',rest: '45s', target: true },
+      { name: 'Russian Twist (weighted)',            sets: 3, reps: '20 total',  rest: '45s', target: true },
+      { name: 'Lateral Band Walk',                  sets: 3, reps: '20 steps',  rest: '30s', target: true },
+    ]
+  },
+  {
+    id: 'upper', label: 'UPPER BODY 🟣', day: 'Saturday', accent: '#6A0DAD', bg: '#F5EEF8',
+    tag: 'Compound Strength Focus', duration: '45–55 min',
+    phase: 'Optional 5th day — skip if fatigued, especially weeks 1–3',
+    exercises: [
+      { name: 'Overhead Press (Barbell / DB)', sets: 4, reps: '6–8',   rest: '120s' },
+      { name: 'Bent-Over Barbell Row',         sets: 4, reps: '6–8',   rest: '120s' },
+      { name: 'Dumbbell Incline Press',        sets: 3, reps: '10–12', rest: '75s'  },
+      { name: 'Pull-Ups / Lat Pulldown',       sets: 3, reps: '8–10',  rest: '75s'  },
+      { name: 'Lateral Raises',                sets: 2, reps: '15',    rest: '45s'  },
+      { name: 'Face Pulls',                    sets: 2, reps: '20',    rest: '45s'  },
+      { name: 'Pec Deck / Machine Fly',        sets: 3, reps: '15–20', rest: '45s', target: true },
+      { name: 'Hip Abduction Machine / Band',  sets: 3, reps: '20–25', rest: '45s', target: true },
+    ]
+  },
+  {
+    id: 'cardio', label: 'ZONE 2 CARDIO 🏃', day: 'Tue & Sun', accent: '#B7770D', bg: '#FDF6E3',
+    tag: 'Heart Health · Fat Burn · LDL Reduction', duration: '40–50 min',
+    phase: 'Keep HR at 60–70% max (106–124 BPM). Pick ONE option per session.',
+    exercises: [
+      { name: 'Incline Treadmill Walk',        sets: 1, reps: '40–50 min', rest: '—' },
+      { name: 'Stationary / Road Cycling',     sets: 1, reps: '40–50 min', rest: '—' },
+      { name: 'Rowing Machine (easy pace)',    sets: 1, reps: '35–45 min', rest: '—' },
+      { name: 'Swimming (easy laps)',          sets: 1, reps: '30–40 min', rest: '—' },
+    ]
+  },
+  {
+    id: 'hiit', label: 'HIIT ⚡', day: 'Mon or Wed add-on', accent: '#C0392B', bg: '#FDF0EE',
+    tag: 'Stubborn Fat · Hip & Chest Targeting · Max 2x/week', duration: '20–25 min',
+    phase: 'Max effort during work intervals (9/10 RPE). Never do HIIT on back-to-back days.',
+    exercises: [
+      { name: 'Sprint Intervals (30s on / 90s walk)',     sets: 10, reps: '1 round', rest: '90s' },
+      { name: 'Rowing Machine HIIT (20s / 40s)',          sets: 12, reps: '1 round', rest: '40s' },
+      { name: 'Cycling Tabata (20s on / 10s off)',        sets: 8,  reps: '1 round', rest: '10s' },
+      { name: 'Assault Bike Sprints (10s on / 50s off)',  sets: 10, reps: '1 round', rest: '50s' },
+    ]
+  },
+  {
+    id: 'hip', label: 'HIP & CORE ★', day: 'Tue or Rest Day', accent: '#6A0DAD', bg: '#F5EEF8',
+    tag: 'Hip · Love Handles · Obliques · All Targeted', duration: '20–25 min',
+    phase: 'Run as a circuit with minimal rest between exercises for metabolic effect.',
+    exercises: [
+      { name: 'Hip Abduction Machine / Band',      sets: 4, reps: '20–25',    rest: '45s', target: true },
+      { name: 'Side-Lying Hip Raise (Clamshell)',  sets: 3, reps: '20 ea side',rest: '30s', target: true },
+      { name: 'Oblique Woodchop (Cable/Band)',     sets: 3, reps: '15 ea side',rest: '45s', target: true },
+      { name: 'Russian Twist (weighted)',           sets: 3, reps: '20 total', rest: '45s', target: true },
+      { name: 'Side Plank + Hip Dip',              sets: 3, reps: '30s+10 dips',rest:'45s', target: true },
+      { name: 'Standing Oblique Crunch (cable)',   sets: 3, reps: '15 ea side',rest: '45s', target: true },
+      { name: 'Lateral Band Walk',                 sets: 3, reps: '20 steps',  rest: '30s', target: true },
+    ]
+  },
+];
+
+const WARMUP = [
+  '5 min light cardio (treadmill walk, bike, or rowing)',
+  'Arm circles × 15 each direction',
+  'Leg swings × 10 each leg',
+  'Hip 90/90 mobility — 60 sec each side',
+  'Bodyweight squats × 10 + glute bridges × 10',
+  'Band pull-aparts × 15 (shoulder health)',
+  '1 warm-up set of first exercise at 50% working weight',
+];
+const COOLDOWN = [
+  'Hip flexor stretch — hold 30–45 sec each side',
+  'Hamstring stretch — hold 30–45 sec each side',
+  'Chest / pec doorway stretch — 30–45 sec',
+  'Thoracic spine foam roll — 60 sec',
+  '10 slow deep diaphragmatic breaths',
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let state = JSON.parse(localStorage.getItem('workout_checklist_v2') || '{}');
+let activeId = 'push';
+
+function save() { try { localStorage.setItem('workout_checklist_v2', JSON.stringify(state)); } catch(e){} }
+
+// ── Counts ────────────────────────────────────────────────────────────────
+function totalSets(wk)  { return wk.exercises.reduce((s,e) => s + e.sets, 0); }
+function doneSets(wkId) {
+  const s = state[wkId] || {};
+  return Object.keys(s).filter(k => k.startsWith('set_') && s[k]).length;
+}
+function allTotal() { return WORKOUTS.reduce((s,w) => s + totalSets(w), 0); }
+function allDone()  { return WORKOUTS.reduce((s,w) => s + doneSets(w.id), 0); }
+
+// ── Render ────────────────────────────────────────────────────────────────
+function render() {
+  renderNav();
+  renderPanel();
+  updateOverall();
+}
+
+function renderNav() {
+  const nav = document.getElementById('nav-tabs');
+  nav.innerHTML = WORKOUTS.map(w => {
+    const total = totalSets(w);
+    const done  = doneSets(w.id);
+    const isDone = done === total && total > 0;
+    const isActive = w.id === activeId;
+    const style = `--accent:${w.accent};`;
+    let badge = '';
+    if (done > 0) badge = `<span class="badge">${isDone ? '✓' : done}</span>`;
+    return `<button class="nav-tab${isActive?' active':''}${isDone?' done-tab':''}" style="${style}" onclick="switchTab('${w.id}')">${w.label}${badge}</button>`;
+  }).join('');
+}
+
+function renderPanel() {
+  const content = document.getElementById('content');
+  content.innerHTML = WORKOUTS.map(w => buildPanel(w)).join('');
+}
+
+function buildPanel(wk) {
+  const s     = state[wk.id] || {};
+  const total = totalSets(wk);
+  const done  = doneSets(wk.id);
+  const pct   = total > 0 ? Math.round(done/total*100) : 0;
+  const isDone = done === total && total > 0;
+  const accent = wk.accent;
+  const isActive = wk.id === activeId;
+
+  // warmup checkboxes
+  const warmupHtml = WARMUP.map((item, i) => {
+    const key = `warm_${i}`;
+    const checked = s[key] || false;
+    return `<div class="protocol-item">
+      <div class="proto-cb${checked?' checked':''}" onclick="toggleProto('${wk.id}','${key}')"></div>
+      <span class="proto-text">${item}</span>
+    </div>`;
+  }).join('');
+
+  // exercises
+  const exHtml = wk.exercises.map((ex, ei) => {
+    const exDone = Array.from({length:ex.sets},(_,si) => s[`set_${ei}_${si}`]).filter(Boolean).length;
+    const exComplete = exDone === ex.sets;
+    const targetBadge = ex.target ? '<span class="ex-target-badge">★ TARGET</span>' : '';
+    const setsHtml = Array.from({length:ex.sets},(_,si) => {
+      const key = `set_${ei}_${si}`;
+      const wKey = `w_${ei}_${si}`;
+      const checked = s[key] || false;
+      const wval = s[wKey] || '';
+      return `<div class="set-item">
+        <div class="set-cb${checked?' checked':''}" onclick="toggleSet('${wk.id}',${ei},${si})"></div>
+        <span class="set-label">S${si+1}</span>
+        <input class="weight-input" type="text" placeholder="lbs" value="${wval}"
+          onchange="saveWeight('${wk.id}',${ei},${si},this.value)" title="Weight used for set ${si+1}">
+      </div>`;
+    }).join('');
+    return `<div class="ex-card">
+      <div class="ex-top">
+        <div>
+          <div class="ex-name">${ex.name}${targetBadge}</div>
+          <div class="ex-meta">${ex.sets} sets · ${ex.reps} · rest ${ex.rest}</div>
+        </div>
+        <div class="ex-progress${exComplete?' done':''}">${exDone}/${ex.sets}</div>
+      </div>
+      <div class="sets-grid">${setsHtml}</div>
+    </div>`;
+  }).join('');
+
+  // cooldown
+  const cooldownHtml = COOLDOWN.map((item, i) => {
+    const key = `cool_${i}`;
+    const checked = s[key] || false;
+    return `<div class="protocol-item">
+      <div class="proto-cb${checked?' checked':''}" onclick="toggleProto('${wk.id}','${key}')"></div>
+      <span class="proto-text">${item}</span>
+    </div>`;
+  }).join('');
+
+  const notesVal = s.notes_text || '';
+  const energyVal = s.notes_energy || '';
+  const liftVal = s.notes_lift || '';
+
+  return `<div class="workout-panel${isActive?' active':''}" id="panel-${wk.id}" style="--accent:${accent}">
+
+    <div class="workout-header" style="background:${accent}">
+      <div class="wh-left">
+        <h2>${wk.label}</h2>
+        <p>${wk.day} &nbsp;·&nbsp; ${wk.tag} &nbsp;·&nbsp; ${wk.duration}</p>
+      </div>
+      <div class="wh-right">
+        <div class="wh-pct">${pct}%</div>
+        <div class="wh-sets">${done}/${total} sets</div>
+      </div>
+    </div>
+    <div class="workout-progress-bar" style="background:#E2E8F0">
+      <div class="fill" style="width:${pct}%;background:${isDone?'#16A34A':accent}"></div>
+    </div>
+
+    <div class="complete-banner${isDone?' show':''}" id="complete-${wk.id}">
+      <span>🎉</span>
+      <p>Workout Complete! Great work!</p>
+    </div>
+
+    <div class="phase-banner">
+      <b>Phase Note:</b> ${wk.phase}
+    </div>
+
+    <div class="protocol-block">
+      <h3>🔥 Warm-Up (8–10 min)</h3>
+      ${warmupHtml}
+    </div>
+
+    ${exHtml}
+
+    <div class="protocol-block" style="border-left-color:${accent};margin-top:2px">
+      <h3>🧘 Cool-Down (5–8 min)</h3>
+      ${cooldownHtml}
+    </div>
+
+    <div class="notes-block">
+      <h4>📝 Session Notes</h4>
+      <div class="notes-row">
+        <div class="notes-field">
+          <label>Energy Level (1–10)</label>
+          <input type="number" min="1" max="10" placeholder="—" style="width:80px" value="${energyVal}"
+            onchange="saveNote('${wk.id}','notes_energy',this.value)">
+        </div>
+        <div class="notes-field">
+          <label>Best / Heaviest Lift Today</label>
+          <input type="text" placeholder="e.g. Bench 185 lbs × 8" style="width:220px" value="${liftVal}"
+            onchange="saveNote('${wk.id}','notes_lift',this.value)">
+        </div>
+      </div>
+      <div class="notes-field" style="width:100%">
+        <label>General Notes</label>
+        <textarea placeholder="How did it feel? Anything to adjust next time?" onchange="saveNote('${wk.id}','notes_text',this.value)">${notesVal}</textarea>
+      </div>
+      <button class="reset-btn" onclick="resetWorkout('${wk.id}')">↺ Reset this workout</button>
+    </div>
+  </div>`;
+}
+
+// ── Interactions ──────────────────────────────────────────────────────────
+function switchTab(id) {
+  activeId = id;
+  document.querySelectorAll('.workout-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', WORKOUTS[i].id === id);
+  });
+  panel && panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function toggleSet(wkId, ei, si) {
+  if (!state[wkId]) state[wkId] = {};
+  const key = `set_${ei}_${si}`;
+  state[wkId][key] = !state[wkId][key];
+  save();
+  refreshWorkout(wkId);
+}
+
+function toggleProto(wkId, key) {
+  if (!state[wkId]) state[wkId] = {};
+  state[wkId][key] = !state[wkId][key];
+  save();
+  refreshProto(wkId, key);
+}
+
+function saveWeight(wkId, ei, si, val) {
+  if (!state[wkId]) state[wkId] = {};
+  state[wkId][`w_${ei}_${si}`] = val;
+  save();
+}
+
+function saveNote(wkId, field, val) {
+  if (!state[wkId]) state[wkId] = {};
+  state[wkId][field] = val;
+  save();
+}
+
+function resetWorkout(wkId) {
+  if (!confirm('Reset all checkboxes and weights for this workout?')) return;
+  state[wkId] = {};
+  save();
+  renderPanel();
+  updateOverall();
+  switchTab(wkId);
+}
+
+function refreshWorkout(wkId) {
+  const wk = WORKOUTS.find(w => w.id === wkId);
+  const panel = document.getElementById('panel-' + wkId);
+  if (!panel) return;
+
+  // update set checkboxes
+  const s = state[wkId] || {};
+  wk.exercises.forEach((ex, ei) => {
+    let exDone = 0;
+    for (let si = 0; si < ex.sets; si++) {
+      const key = `set_${ei}_${si}`;
+      const cb = panel.querySelector(`[onclick="toggleSet('${wkId}',${ei},${si})"]`);
+      if (cb) { const c = !!s[key]; cb.classList.toggle('checked', c); if(c) exDone++; }
+    }
+    // update ex-progress
+    const prog = panel.querySelectorAll('.ex-progress')[ei];
+    if (prog) {
+      prog.textContent = `${exDone}/${ex.sets}`;
+      prog.classList.toggle('done', exDone === ex.sets);
+    }
+  });
+
+  // update header pct
+  const total = totalSets(wk);
+  const done  = doneSets(wkId);
+  const pct   = total > 0 ? Math.round(done/total*100) : 0;
+  const isDone = done === total && total > 0;
+  const pctEl = panel.querySelector('.wh-pct');
+  const setsEl = panel.querySelector('.wh-sets');
+  const fillEl = panel.querySelector('.workout-progress-bar .fill');
+  const banner = document.getElementById('complete-' + wkId);
+  if (pctEl)  pctEl.textContent  = pct + '%';
+  if (setsEl) setsEl.textContent = `${done}/${total} sets`;
+  if (fillEl) { fillEl.style.width = pct + '%'; fillEl.style.background = isDone ? '#16A34A' : wk.accent; }
+  if (banner) banner.classList.toggle('show', isDone);
+
+  // update nav badge
+  renderNav();
+  updateOverall();
+}
+
+function refreshProto(wkId, key) {
+  const s = state[wkId] || {};
+  const panel = document.getElementById('panel-' + wkId);
+  if (!panel) return;
+  const cb = panel.querySelector(`[onclick="toggleProto('${wkId}','${key}')"]`);
+  if (cb) cb.classList.toggle('checked', !!s[key]);
+}
+
+function updateOverall() {
+  const total = allTotal();
+  const done  = allDone();
+  const pct   = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('overall-pct').textContent  = pct + '%';
+  document.getElementById('overall-sets').textContent = `${done} / ${total} sets`;
+  document.getElementById('overall-bar').style.width  = pct + '%';
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
