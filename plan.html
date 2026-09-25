@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Week Transformation Plan</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --black:   #0A0A0A;
+  --ink:     #181818;
+  --slate:   #2C2C2C;
+  --steel:   #4A4A4A;
+  --mid:     #888;
+  --rule:    #D8D8D8;
+  --fog:     #F0F0F0;
+  --white:   #FAFAFA;
+
+  --push:    #D94F2B;
+  --pull:    #2B6ED9;
+  --legs:    #2B8C3D;
+  --upper:   #7B3FBE;
+  --cardio:  #C27A00;
+  --rest:    #3A6B8A;
+  --lb:      #B03060;
+
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--black);
+  padding: 72px 24px 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,79,43,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 860px; margin: 0 auto; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mid);
+  letter-spacing: .12em;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(36px, 7vw, 68px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--push); }
+.hero-sub {
+  font-size: 17px;
+  color: #AAA;
+  max-width: 520px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid #2A2A2A;
+  border-radius: 10px;
+  overflow: hidden;
+  width: fit-content;
+}
+.stat {
+  padding: 14px 24px;
+  border-right: 1px solid #2A2A2A;
+}
+.stat:last-child { border-right: none; }
+.stat-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  font-family: var(--mono);
+  line-height: 1;
+}
+.stat-key {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-top: 4px;
+}
+.hero-goals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+.goal-chip {
+  background: #1C1C1C;
+  border: 1px solid #2E2E2E;
+  color: #CCC;
+  font-size: 12px;
+  padding: 6px 13px;
+  border-radius: 20px;
+}
+
+/* ── NAV ── */
+.nav {
+  background: #fff;
+  border-bottom: 1.5px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--steel);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2.5px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.nav-link:hover { color: var(--ink); }
+.nav-link.active { color: var(--ink); font-weight: 700; }
+
+/* ── MAIN ── */
+main { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 52px 0 20px;
+  border-bottom: 1.5px solid var(--rule);
+  margin-bottom: 28px;
+}
+.section-color-bar {
+  width: 5px;
+  height: 48px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.section-meta { flex: 1; }
+.section-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mid);
+  letter-spacing: .1em;
+  margin-bottom: 5px;
+}
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.section-detail {
+  font-size: 13px;
+  color: var(--mid);
+  margin-top: 3px;
+}
+
+/* ── EQUIPMENT BADGE ── */
+.equip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--fog);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+
+/* ── EXERCISE TABLE ── */
+.ex-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+.ex-table th {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--mid);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1.5px solid var(--rule);
+  background: var(--fog);
+}
+.ex-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid var(--fog);
+  vertical-align: top;
+  font-size: 14px;
+}
+.ex-table tr:hover td { background: #F7F7F7; }
+.ex-name {
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.ex-note {
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 3px;
+  line-height: 1.45;
+  font-style: italic;
+}
+.ex-sets { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+.ex-reps { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+.ex-rest { font-family: var(--mono); font-size: 12px; color: var(--mid); white-space: nowrap; }
+.target-badge {
+  display: inline-block;
+  background: #F0E8FA;
+  color: var(--upper);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: .04em;
+}
+
+/* ── LOWER BACK BLOCK ── */
+.lb-block {
+  background: #FBF0F4;
+  border: 1.5px solid #E8C0D0;
+  border-left: 5px solid var(--lb);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-bottom: 28px;
+}
+.lb-block h3 {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--lb);
+  letter-spacing: .04em;
+  margin-bottom: 14px;
+}
+.lb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+.lb-item {
+  background: #fff;
+  border: 1px solid #E8C0D0;
+  border-radius: 6px;
+  padding: 11px 14px;
+}
+.lb-item-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.lb-item-detail {
+  font-size: 11px;
+  color: var(--mid);
+  line-height: 1.45;
+}
+.lb-warning {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--lb);
+  font-weight: 500;
+}
+
+/* ── PHASE TIMELINE ── */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.phase {
+  padding: 18px 16px;
+  border-right: 1.5px solid var(--rule);
+}
+.phase:last-child { border-right: none; }
+.phase-weeks {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mid);
+  margin-bottom: 5px;
+}
+.phase-name {
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.phase-detail {
+  font-size: 11px;
+  color: var(--mid);
+  line-height: 1.5;
+}
+
+/* ── WEEK SCHEDULE ── */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 40px;
+}
+.week-day {
+  padding: 10px 6px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+.week-day-label { color: var(--mid); margin-bottom: 4px; font-family: var(--mono); }
+.week-day-name  { color: var(--white); font-size: 10px; font-weight: 700; line-height: 1.3; }
+
+/* ── NUTRITION STRIP ── */
+.nutrition {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.nutr-card {
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  padding: 16px;
+}
+.nutr-val {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: var(--mono);
+  color: var(--ink);
+  line-height: 1;
+}
+.nutr-unit { font-size: 13px; font-weight: 400; color: var(--mid); }
+.nutr-label { font-size: 12px; color: var(--mid); margin-top: 5px; }
+
+/* ── PROTOCOL BLOCKS ── */
+.proto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+.proto-block {
+  background: var(--fog);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.proto-block h4 {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  color: var(--steel);
+  margin-bottom: 10px;
+}
+.proto-list {
+  list-style: none;
+  font-size: 12.5px;
+  color: var(--steel);
+  line-height: 1.7;
+}
+.proto-list li::before { content: "→  "; color: var(--mid); font-family: var(--mono); }
+
+/* ── CHECKLIST CTA ── */
+.cta {
+  background: var(--black);
+  border-radius: 12px;
+  padding: 36px 32px;
+  text-align: center;
+  margin-top: 52px;
+}
+.cta h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: -.02em;
+}
+.cta p { color: #888; font-size: 14px; margin-bottom: 24px; }
+.cta-btn {
+  display: inline-block;
+  background: var(--push);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  transition: opacity .15s;
+}
+.cta-btn:hover { opacity: .88; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1.5px solid var(--rule);
+  padding: 28px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--mid);
+}
+footer a { color: var(--mid); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .hero { padding: 48px 20px 44px; }
+  .hero-stats { flex-wrap: wrap; }
+  .stat { border-right: none; border-bottom: 1px solid #2A2A2A; }
+  .stat:last-child { border-bottom: none; }
+  .phases { grid-template-columns: 1fr 1fr; }
+  .week-grid { grid-template-columns: repeat(4, 1fr); }
+  .proto-grid { grid-template-columns: 1fr; }
+  .ex-table th:nth-child(4),
+  .ex-table td:nth-child(4) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">PERSONAL FITNESS / STARTING SEP 25 2026</p>
+    <h1>12-Week<br><span>Transformation</span><br>Plan</h1>
+    <p class="hero-sub">Build lean muscle, reduce body fat, lower LDL cholesterol, target hip & chest fat deposits — and fix lower back pain for good.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-val">44</div><div class="stat-key">Age</div></div>
+      <div class="stat"><div class="stat-val">6'2"</div><div class="stat-key">Height</div></div>
+      <div class="stat"><div class="stat-val">205</div><div class="stat-key">Start lbs</div></div>
+      <div class="stat"><div class="stat-val">12</div><div class="stat-key">Weeks</div></div>
+      <div class="stat"><div class="stat-val">84</div><div class="stat-key">Sessions</div></div>
+    </div>
+    <div class="hero-goals">
+      <span class="goal-chip">Build lean muscle</span>
+      <span class="goal-chip">Lose body fat</span>
+      <span class="goal-chip">Lower LDL cholesterol</span>
+      <span class="goal-chip">Reduce hip & chest fat</span>
+      <span class="goal-chip">Eliminate lower back pain</span>
+      <span class="goal-chip">Dumbbells + bands only</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Plan sections">
+  <div class="nav-inner">
+    <a class="nav-link" href="#overview">Overview</a>
+    <a class="nav-link" href="#lower-back">Lower Back</a>
+    <a class="nav-link" href="#push">Push</a>
+    <a class="nav-link" href="#pull">Pull</a>
+    <a class="nav-link" href="#legs">Legs</a>
+    <a class="nav-link" href="#upper">Upper</a>
+    <a class="nav-link" href="#cardio">Cardio</a>
+    <a class="nav-link" href="#nutrition">Nutrition</a>
+    <a class="nav-link" href="#checklist">Checklist</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--black)"></div>
+      <div class="section-meta">
+        <p class="section-tag">PROGRAM STRUCTURE</p>
+        <h2 class="section-title">Weekly Schedule</h2>
+        <p class="section-detail">4–5 training days · 2 cardio sessions · 1 full recovery day · 12:00 PM daily</p>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div class="week-day" style="background:var(--push)">
+        <div class="week-day-label">THU</div>
+        <div class="week-day-name">PUSH</div>
+      </div>
+      <div class="week-day" style="background:var(--cardio)">
+        <div class="week-day-label">FRI</div>
+        <div class="week-day-name">CARDIO</div>
+      </div>
+      <div class="week-day" style="background:var(--pull)">
+        <div class="week-day-label">SAT</div>
+        <div class="week-day-name">PULL</div>
+      </div>
+      <div class="week-day" style="background:var(--rest)">
+        <div class="week-day-label">SUN</div>
+        <div class="week-day-name">REST + LB</div>
+      </div>
+      <div class="week-day" style="background:var(--legs)">
+        <div class="week-day-label">MON</div>
+        <div class="week-day-name">LEGS</div>
+      </div>
+      <div class="week-day" style="background:var(--upper)">
+        <div class="week-day-label">TUE</div>
+        <div class="week-day-name">UPPER</div>
+      </div>
+      <div class="week-day" style="background:var(--cardio)">
+        <div class="week-day-label">WED</div>
+        <div class="week-day-name">CARDIO</div>
+      </div>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-weeks">WEEKS 1–3</div>
+        <div class="phase-name">Foundation</div>
+        <div class="phase-detail">12–15 reps · 65–70% · Goblet squat · LB protocol daily</div>
+      </div>
+      <div class="phase">
+        <div class="phase-weeks">WEEKS 4–6</div>
+        <div class="phase-name">Hypertrophy</div>
+        <div class="phase-detail">10–12 reps · 70–75% · Add weight weekly · DB front squat</div>
+      </div>
+      <div class="phase">
+        <div class="phase-weeks">WEEKS 7–9</div>
+        <div class="phase-name">Strength</div>
+        <div class="phase-detail">8–10 reps · 75–80% · Core brace on all compounds · Deload Wk 9</div>
+      </div>
+      <div class="phase">
+        <div class="phase-weeks">WEEKS 10–12</div>
+        <div class="phase-name">Peak</div>
+        <div class="phase-detail">6–10 reps · 80–85% · Test new maxes · Schedule lab work</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOWER BACK -->
+  <section id="lower-back">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--lb)"></div>
+      <div class="section-meta">
+        <p class="section-tag">EVERY SESSION · BEFORE MAIN WORKOUT · 10 MINUTES</p>
+        <h2 class="section-title">Lower Back Protocol</h2>
+        <p class="section-detail">Dr. Stuart McGill's Big 3 + glute & core support. Evidence-based spine stabilization.</p>
+      </div>
+    </div>
+
+    <div class="lb-block">
+      <h3>McGILL BIG 3 + SUPPORT WORK — PERFORM BEFORE EVERY SESSION</h3>
+      <div class="lb-grid">
+        <div class="lb-item">
+          <div class="lb-item-name">Cat-Camel</div>
+          <div class="lb-item-detail">10 slow cycles · 3 sec each end position · Spine mobility warm-up · Zero pain = correct pace</div>
+        </div>
+        <div class="lb-item">
+          <div class="lb-item-name">McGill Curl-Up</div>
+          <div class="lb-item-detail">5×10s hold · 3×10s · 1×10s · Hands under lumbar curve · Lift only head/shoulders — no lumbar flexion</div>
+        </div>
+        <div class="lb-item">
+          <div class="lb-item-name">Bird Dog</div>
+          <div class="lb-item-detail">5×10s ea side · 3×10s · 1×10s · All fours, opposite arm + leg · Hips level · Back neutral</div>
+        </div>
+        <div class="lb-item">
+          <div class="lb-item-name">McGill Side Plank</div>
+          <div class="lb-item-detail">5×10s ea side · 3×10s · 1×10s · Start with knees bent · Progress to feet when ready</div>
+        </div>
+        <div class="lb-item">
+          <div class="lb-item-name">Glute Bridge</div>
+          <div class="lb-item-detail">3 × 12–15 reps · Drive through heels · Squeeze glutes at top · Don't hyperextend spine</div>
+        </div>
+        <div class="lb-item">
+          <div class="lb-item-name">Dead Bug</div>
+          <div class="lb-item-detail">3 × 8 each side · Low back pressed into floor entire time · 3 sec controlled descent · Core anti-extension</div>
+        </div>
+      </div>
+      <p class="lb-warning">⚠ Stop any movement that causes sharp or radiating pain. Consult a physio if pain is acute or worsening. Russian Twists removed from plan — high lumbar shear. Goblet squat replaces barbell squat weeks 1–3.</p>
+    </div>
+  </section>
+
+  <!-- PUSH DAY -->
+  <section id="push">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--push)"></div>
+      <div class="section-meta">
+        <p class="section-tag">THURSDAY · 65–75 MIN</p>
+        <h2 class="section-title">Push Day</h2>
+        <p class="section-detail">Chest · Shoulders · Triceps</p>
+      </div>
+    </div>
+    <div class="equip-badge">🏋 Dumbbells + Adjustable Bench + Resistance Bands</div>
+    <table class="ex-table">
+      <thead><tr>
+        <th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><div class="ex-name">DB Bench Press (flat bench)</div><div class="ex-note">Neutral or pronated grip · 3 sec eccentric · Full range of motion</div></td><td class="ex-sets">4</td><td class="ex-reps">8–10</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">DB Incline Press (bench 30–45°)</div><div class="ex-note">Upper chest focus · Elbows at 45° · Don't flare elbows behind ears</div></td><td class="ex-sets">3</td><td class="ex-reps">10–12</td><td class="ex-rest">75s</td></tr>
+        <tr><td><div class="ex-name">Seated DB Shoulder Press</div><div class="ex-note">Sit upright on bench · Don't let elbows drift behind head</div></td><td class="ex-sets">3</td><td class="ex-reps">10–12</td><td class="ex-rest">75s</td></tr>
+        <tr><td><div class="ex-name">DB Lateral Raises</div><div class="ex-note">Slight forward lean · Lead with elbows, not hands · No swinging</div></td><td class="ex-sets">3</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">DB Overhead Tricep Extension</div><div class="ex-note">Both hands grip one DB head · Elbows point forward · Full stretch</div></td><td class="ex-sets">3</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Band Tricep Pushdown <span class="target-badge">anchor overhead</span></div><div class="ex-note">Step on band or loop over door top · Elbows pinned to sides</div></td><td class="ex-sets">3</td><td class="ex-reps">15–20</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">DB Chest Fly — flat bench <span class="target-badge">★ TARGET</span></div><div class="ex-note">Wide arc · Slight bend in elbows · Feel the stretch · Chest fat targeting</div></td><td class="ex-sets">3</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">DB Decline Press (bench 15–20°) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Lower chest emphasis · Don't go too steep with the bench</div></td><td class="ex-sets">3</td><td class="ex-reps">10–12</td><td class="ex-rest">75s</td></tr>
+        <tr><td><div class="ex-name">DB Pullover — flat bench <span class="target-badge">★ TARGET</span></div><div class="ex-note">Serratus + pec stretch · Slight bend in elbows · Controlled arc</div></td><td class="ex-sets">3</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Band Chest Fly (anchor at shoulder height) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Step forward for tension · Hug-a-tree motion · Squeeze and hold at center</div></td><td class="ex-sets">3</td><td class="ex-reps">15–20</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">Incline Push-Up (feet on bench — finisher) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Upper chest emphasis · Full range · To failure</div></td><td class="ex-sets">2</td><td class="ex-reps">Max</td><td class="ex-rest">45s</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- PULL DAY -->
+  <section id="pull">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--pull)"></div>
+      <div class="section-meta">
+        <p class="section-tag">SATURDAY · 65–75 MIN</p>
+        <h2 class="section-title">Pull Day</h2>
+        <p class="section-detail">Back · Biceps · Rear Delts</p>
+      </div>
+    </div>
+    <div class="equip-badge">🏋 Dumbbells + Adjustable Bench + Resistance Bands</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr><td><div class="ex-name">Band Lat Pulldown (anchor overhead, kneel)</div><div class="ex-note">Loop band over door top or pull-up bar · Drive elbows down to hips · Lean back slightly</div></td><td class="ex-sets">4</td><td class="ex-reps">10–12</td><td class="ex-rest">75s</td></tr>
+        <tr><td><div class="ex-name">DB Bent-Over Row (both arms, brace on bench)</div><div class="ex-note">Hinge at hips · Neutral spine · Drive elbows back toward hip, not up</div></td><td class="ex-sets">4</td><td class="ex-reps">10–12</td><td class="ex-rest">75s</td></tr>
+        <tr><td><div class="ex-name">Single-Arm DB Row (brace on bench)</div><div class="ex-note">Hand + knee on bench · Full stretch at bottom · Squeeze lat at top</div></td><td class="ex-sets">3</td><td class="ex-reps">10–12 ea</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Band Face Pull (anchor at eye height)</div><div class="ex-note">Pull to forehead · External rotate at end — thumbs behind ears · Critical for shoulder health + rotator cuff</div></td><td class="ex-sets">3</td><td class="ex-reps">15–20</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">DB Chest-Supported Rear Delt Fly (incline bench 45°)</div><div class="ex-note">Lie chest-down on incline bench · Slight bend in elbows · Lead with elbows, not hands</div></td><td class="ex-sets">3</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">DB Curl (supinated grip)</div><div class="ex-note">Full extension at bottom · Supinate wrist as you curl · No swinging</div></td><td class="ex-sets">3</td><td class="ex-reps">10–12</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Hammer Curl (neutral grip)</div><div class="ex-note">Builds brachialis — arm thickness · Both together or alternating</div></td><td class="ex-sets">2</td><td class="ex-reps">12–15</td><td class="ex-rest">60s</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- LEG DAY -->
+  <section id="legs">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--legs)"></div>
+      <div class="section-meta">
+        <p class="section-tag">MONDAY · 65–75 MIN</p>
+        <h2 class="section-title">Leg Day</h2>
+        <p class="section-detail">Quads · Hamstrings · Glutes · Calves</p>
+      </div>
+    </div>
+    <div class="equip-badge">🏋 Dumbbells + Bench + Resistance Bands</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr><td><div class="ex-name">Goblet Squat (Wks 1–3) → DB Front Squat (Wks 4+)</div><div class="ex-note">Wks 1–3: one heavy DB at chest · Wks 4+: two DBs at shoulders · Upright torso protects lumbar spine</div></td><td class="ex-sets">4</td><td class="ex-reps">8–10</td><td class="ex-rest">120s</td></tr>
+        <tr><td><div class="ex-name">DB Romanian Deadlift (RDL)</div><div class="ex-note">Hinge at hips · Slight knee bend · DBs track close to legs · Feel hamstring stretch · Neutral spine always</div></td><td class="ex-sets">4</td><td class="ex-reps">10–12</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">Bulgarian Split Squat (rear foot on bench)</div><div class="ex-note">Replaces leg press — actually harder · Hold DBs at sides · Keep torso upright · Front leg does the work</div></td><td class="ex-sets">3</td><td class="ex-reps">10 ea leg</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">Reverse Lunges (DBs at sides)</div><div class="ex-note">Step back, not forward — easier on knees and lumbar · Control the descent</div></td><td class="ex-sets">3</td><td class="ex-reps">10 ea leg</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Nordic Hamstring Curl (feet under bench)</div><div class="ex-note">Replaces leg curl machine · Kneel, anchor feet under bench, lower torso slowly · Start with just a few reps — this is hard</div></td><td class="ex-sets">3</td><td class="ex-reps">6–10</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">Spanish Squat (band around fixed point)</div><div class="ex-note">Replaces leg extension · Loop band around post/stair at knee height · Lean back into band and squat — pure quad isolation</div></td><td class="ex-sets">3</td><td class="ex-reps">15–20</td><td class="ex-rest">60s</td></tr>
+        <tr><td><div class="ex-name">Standing Calf Raise (DBs in hands)</div><div class="ex-note">Full stretch at bottom · Pause at top · Progress to single-leg as it gets easy</div></td><td class="ex-sets">4</td><td class="ex-reps">15–20</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">Band Oblique Woodchop (anchor band low) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Anchor band to door hinge · Rotate and pull diagonally upward · Love handle targeting</div></td><td class="ex-sets">3</td><td class="ex-reps">15 ea side</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">Band Lateral Walk <span class="target-badge">★ TARGET</span></div><div class="ex-note">Band just above knees · Stay low · Controlled steps · Don't let knees cave in</div></td><td class="ex-sets">3</td><td class="ex-reps">20 steps ea</td><td class="ex-rest">30s</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- UPPER BODY -->
+  <section id="upper">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--upper)"></div>
+      <div class="section-meta">
+        <p class="section-tag">TUESDAY (OPTIONAL) · 55–65 MIN</p>
+        <h2 class="section-title">Upper Body</h2>
+        <p class="section-detail">Compound Strength Focus — Optional 5th day</p>
+      </div>
+    </div>
+    <div class="equip-badge">🏋 Dumbbells + Adjustable Bench + Resistance Bands</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr><td><div class="ex-name">Standing DB Overhead Press</div><div class="ex-note">Standing engages more core than seated · Brace hard · Full lockout overhead</div></td><td class="ex-sets">4</td><td class="ex-reps">6–8</td><td class="ex-rest">120s</td></tr>
+        <tr><td><div class="ex-name">DB Bent-Over Row (double, heavy)</div><div class="ex-note">Heavier than Pull Day · Hip hinge, chest up · Drive elbows back hard</div></td><td class="ex-sets">4</td><td class="ex-reps">6–8</td><td class="ex-rest">120s</td></tr>
+        <tr><td><div class="ex-name">DB Incline Press (heavy)</div><div class="ex-note">Heavier than Push Day · Push to near-failure within rep range</div></td><td class="ex-sets">3</td><td class="ex-reps">8–10</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">Pull-Ups or Band-Assisted Pull-Ups</div><div class="ex-note">Full dead hang to chin over bar · Use band looped under knees for assistance · Best lat builder without a machine</div></td><td class="ex-sets">3</td><td class="ex-reps">8–10</td><td class="ex-rest">90s</td></tr>
+        <tr><td><div class="ex-name">DB Lateral Raises (burnout)</div><div class="ex-note">Lighter weight · Strict form · 5-sec eccentric</div></td><td class="ex-sets">2</td><td class="ex-reps">15</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">Band Face Pull (door anchor)</div><div class="ex-note">Non-negotiable for rotator cuff health · External rotation at end of each rep</div></td><td class="ex-sets">2</td><td class="ex-reps">20</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">DB Chest Fly — flat bench (finisher) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Light weight · Full stretch · Squeeze at top · Chest fat targeting</div></td><td class="ex-sets">3</td><td class="ex-reps">15–20</td><td class="ex-rest">45s</td></tr>
+        <tr><td><div class="ex-name">Band Hip Abduction (standing, band at ankles) <span class="target-badge">★ TARGET</span></div><div class="ex-note">Stand on one leg · Kick other leg laterally against band resistance · Hip fat targeting</div></td><td class="ex-sets">3</td><td class="ex-reps">20–25 ea</td><td class="ex-rest">45s</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CARDIO -->
+  <section id="cardio">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--cardio)"></div>
+      <div class="section-meta">
+        <p class="section-tag">FRIDAY + WEDNESDAY · 40–50 MIN · ZONE 2</p>
+        <h2 class="section-title">Cardio</h2>
+        <p class="section-detail">Heart health · LDL reduction · Fat burn · Target HR: 106–124 BPM</p>
+      </div>
+    </div>
+    <div class="equip-badge">🚴 Stationary Bike + Outdoor (Montana terrain)</div>
+    <table class="ex-table">
+      <thead><tr><th>Option</th><th>Duration</th><th>Intensity</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><div class="ex-name">Stationary Bike (Zone 2)</div><div class="ex-note">Primary option — consistent and controllable</div></td><td class="ex-sets">40–50 min</td><td class="ex-reps">106–124 BPM</td><td class="ex-rest">Moderate resistance</td></tr>
+        <tr><td><div class="ex-name">Brisk Outdoor Walk (flat or hilly)</div><div class="ex-note">Montana terrain is perfect — hills add intensity without joint stress</div></td><td class="ex-sets">40–50 min</td><td class="ex-reps">106–118 BPM</td><td class="ex-rest">Conversational pace</td></tr>
+        <tr><td><div class="ex-name">Trail Hike (moderate pace)</div><div class="ex-note">Excellent active recovery — varied terrain, high NEAT</div></td><td class="ex-sets">45–60 min</td><td class="ex-reps">110–120 BPM</td><td class="ex-rest">Don't push to Zone 3</td></tr>
+        <tr><td><div class="ex-name">Outdoor Sprint Intervals (HIIT option)</div><div class="ex-note">Max 2×/week · Targets stubborn hip & chest fat via catecholamine spike</div></td><td class="ex-sets">20–25 min</td><td class="ex-reps">10× 30s sprint</td><td class="ex-rest">90s walk recovery</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- NUTRITION -->
+  <section id="nutrition">
+    <div class="section-header">
+      <div class="section-color-bar" style="background:var(--black)"></div>
+      <div class="section-meta">
+        <p class="section-tag">DAILY TARGETS</p>
+        <h2 class="section-title">Nutrition</h2>
+        <p class="section-detail">Body recomposition: slight deficit (~350 cal/day) with high protein to preserve and build muscle</p>
+      </div>
+    </div>
+    <div class="nutrition">
+      <div class="nutr-card">
+        <div class="nutr-val">2,400<span class="nutr-unit"> cal</span></div>
+        <div class="nutr-label">Daily calories (adjust ±150 every 2 weeks based on results)</div>
+      </div>
+      <div class="nutr-card">
+        <div class="nutr-val">170<span class="nutr-unit">g</span></div>
+        <div class="nutr-label">Protein — every single day. Prioritize above everything else.</div>
+      </div>
+      <div class="nutr-card">
+        <div class="nutr-val">245<span class="nutr-unit">g</span></div>
+        <div class="nutr-label">Carbohydrates — 80% timed around workouts</div>
+      </div>
+      <div class="nutr-card">
+        <div class="nutr-val">70<span class="nutr-unit">g</span></div>
+        <div class="nutr-label">Fat — prioritize omega-3s and monounsaturated for LDL reduction</div>
+      </div>
+      <div class="nutr-card">
+        <div class="nutr-val">38<span class="nutr-unit">g</span></div>
+        <div class="nutr-label">Fiber daily — soluble fiber directly reduces LDL cholesterol</div>
+      </div>
+      <div class="nutr-card">
+        <div class="nutr-val">3.5<span class="nutr-unit">L</span></div>
+        <div class="nutr-label">Water — add 500ml for every hour of training</div>
+      </div>
+    </div>
+
+    <div class="proto-grid">
+      <div class="proto-block">
+        <h4>LDL-LOWERING FOODS — EAT MORE</h4>
+        <ul class="proto-list">
+          <li>Oats, oat bran, barley (soluble fiber)</li>
+          <li>Salmon, sardines, walnuts (omega-3)</li>
+          <li>Broccoli, cauliflower, Brussels sprouts (DIM — lowers estrogen → reduces chest fat)</li>
+          <li>Avocado, olive oil, almonds (monounsaturated fat)</li>
+          <li>Blueberries, strawberries (antioxidants)</li>
+          <li>Black beans, lentils, chickpeas (fiber + plant protein)</li>
+          <li>Ground flaxseed 1–2 tbsp daily (lignans reduce estrogen)</li>
+        </ul>
+      </div>
+      <div class="proto-block">
+        <h4>LIMIT OR AVOID</h4>
+        <ul class="proto-list">
+          <li>Alcohol — converts to estrogen in liver, promotes chest fat</li>
+          <li>Refined carbs and added sugar (raise triglycerides)</li>
+          <li>Processed meats and fried foods</li>
+          <li>Trans fats — directly raise LDL</li>
+          <li>Full-fat dairy frequently</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="checklist">
+    <div class="cta">
+      <h2>Ready to train?</h2>
+      <p>Open the interactive workout checklist — track every set, log weights, and check off your lower back protocol.</p>
+      <a class="cta-btn" href="index.html">Open Workout Checklist →</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>12-Week Transformation Plan · Zach · Started Sep 25, 2026 · <a href="index.html">Workout Checklist</a></p>
+  <p style="margin-top:6px">Consult your physician before beginning any new exercise or nutrition program.</p>
+</footer>
+
+<script>
+// Active nav highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('.nav-link');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
